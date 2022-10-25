@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for
+from flask import Blueprint, render_template
 
 
 views = Blueprint("views", __name__)
@@ -11,7 +11,7 @@ def home():
 
 @views.route("/logout")
 def logout():
-    return redirect(url_for("views.home"))
+    return render_template("login.html")
 
 
 @views.route("/login")
