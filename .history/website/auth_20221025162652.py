@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from . import db 
 from .models import User
-from flask_login import login_user, logout_user, login_required, current_user
+from flask_login import login_user, logout_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
@@ -21,10 +21,8 @@ def login():
                 return redirect(url_for('views.home'))
             else:
                 flash('Password is incorrect.', category='error')
-       else:
-            
-            flash('Email does not exist.', category='error')    
-
+        else:
+            flash('Email does not exist.', category='error')         
     return render_template("login.html")
 
 @auth.route("/sign-up", methods=['GET', 'POST'])
@@ -45,21 +43,19 @@ def sign_up():
             flash('Username is already in use.', category='error')
         elif password1 != password2:
             flash('Password don\'t match!', category='error')    
+        elif len(username) < 2:
+            flash('Username is to short.', category='error')  
         elif len(password1) < 6:
             flash('Password is to short.', category='error')    
         else:
             new_user = User(email=email, username=username, password=generate_password_hash(password1, method='sha256'))
             db.session.add(new_user)
             db.session.commit()
-            login_user(new_user, remember=True)
             flash('User created!')
             return redirect(url_for('views.home'))
 
     return render_template("signup.html")  
 
-
 @auth.route("/logout")
-@login_required
 def logout():
-    logout_user()
     return redirect(url_for("views.home"))

@@ -10,8 +10,8 @@ DB_NAME = "database.db"
 
 def create_app():
     app = Flask(__name__)
-    app.config['SECRET_KEY'] = 'lwKhartoum!21'
-    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
+    app.config['SECRET_KEY'] = "helloworld"
+    app.config['SQL_ALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
     db.init_app(app)
     
     
@@ -23,7 +23,7 @@ def create_app():
     app.register_blueprint(auth, url_prefix="/")
 
     from .models import User
-    from . import models
+    # from . import models
 
     # with app.app_context():
     #     db.create_all()
