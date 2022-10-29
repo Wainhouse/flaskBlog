@@ -29,20 +29,10 @@ def create_post():
             flash('Post created!', category='success')
             return redirect(url_for('views.home'))
 
-    return render_template('create_posts.html', user=current_user)
+    return render_template(url_for('create_post.html', user=current_user))
 
-@views.route("/posts/<username>")
-@login_required
-def posts(username):
-    user = User.query.filter_by(username=username).first()
 
-    if not user:
-        flash('No user with that username exists.', category='error') 
-
-    posts = Post.query.filter_by(author=user.id).all()
-    return render_template("posts.html", user=current_user, posts=posts, username=username)
-
-@views.route("delete-post/<id>")
+@views.route("/delete-post/<id>")
 @login_required
 def delete_post(id):
     post = Post.query.filter_by(id=id).first()
@@ -50,9 +40,23 @@ def delete_post(id):
     if not post:
         flash("Post does not exist.", category='error')
     elif current_user.id != post.id:
-        flash('You cannot delete this post.', category='error')
+        flash('You do not have permission to delete this post.', category='error')
     else:
         db.session.delete(post)
         db.session.commit()
         flash('Post deleted.', category='success')
-    return redirect(url_for('views.home'))           
+
+    return redirect(url_for('views.home'))
+
+
+@views.route("/posts/<username>")
+@login_required
+def posts(username):
+    user = User.query.filter_by(username=username).first()
+
+    if not user:
+        flash('No user with that username exists.', category='error')
+        return redirect(url_for('views.home'))
+
+    posts = Post.query.filter_by(author=user.id).all()
+    return render_template("posts.html", user=current_user, posts=posts, username=username)
