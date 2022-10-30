@@ -26,7 +26,7 @@ def login():
 
     return render_template("login.html", user=current_user)
 
-# define auth route and it's methods
+define auth route and it's methods
 
 @auth.route("/sign-up", methods=['GET', 'POST'])
 def sign_up():
@@ -38,7 +38,7 @@ def sign_up():
 
         email_exists = User.query.filter_by(email=email).first()
         username_exists = User.query.filter_by(username=username).first()
-# logic for sign up errors
+
         if email_exists:
             flash('Email is already in use.', category='error')
         elif username_exists:

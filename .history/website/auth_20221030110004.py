@@ -26,7 +26,7 @@ def login():
 
     return render_template("login.html", user=current_user)
 
-# define auth route and it's methods
+define auth route and it's methods
 
 @auth.route("/sign-up", methods=['GET', 'POST'])
 def sign_up():
