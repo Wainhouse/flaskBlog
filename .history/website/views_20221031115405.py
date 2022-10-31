@@ -29,7 +29,7 @@ def create_post():
             flash('Post created!', category='success')
             return redirect(url_for('views.home'))
 
-    return render_template('create_posts.html', user=current_user)
+    return render_template('create_post.html', user=current_user)
 
 
 @views.route("/delete-post/<id>")
